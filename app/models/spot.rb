@@ -1,8 +1,5 @@
 class Spot < ActiveRecord::Base
-  include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
-
-  index_name "#{Rails.env}-#{Rails.application.class.to_s.downcase}-#{self.name.downcase}"
+  include Concerns::Searchable
 
   mapping do
     indexes :id, type: 'string', index: 'not_analyzed'
