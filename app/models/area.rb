@@ -4,16 +4,13 @@ class Area < ActiveRecord::Base
   mapping do
     indexes :id, type: 'string', index: 'not_analyzed'
     indexes :name, type: 'string', analyzer: 'kuromoji'
-    indexes :location, type: 'geo_shape'
+    indexes :location, type: 'geo_point'
   end
 
   def as_indexed_json(options = {})
     { 'id'       => id,
       'name'     => name,
-      'location' => {
-        'type' => 'polygon',
-        'coordinates' => [coordinates],
-      }
+      'location' => coordinates.first,
     }
   end
 
@@ -32,12 +29,9 @@ class Area < ActiveRecord::Base
                 match_all: {}
               },
               filter: {
-                geo_shape: {
+                geo_polygon: {
                   location: {
-                    shape: {
-                      type: "Polygon",
-                      coordinates: [area.coordinates]
-                    }
+                    points: area.coordinates
                   }
                 }
               }
