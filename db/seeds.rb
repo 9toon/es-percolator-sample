@@ -21,4 +21,12 @@ spots = [
   { name: "アカベコ", address: "東京都目黒区上目黒２丁目１２番地３", lat: 35.642535, lon: 139.698860 },
 ]
 
+stations = [
+  { name: "中目黒駅", lat: 35.644307, lon: 139.699160 },
+  { name: "恵比寿駅", lat: 35.646690, lon: 139.710106 },
+  { name: "代官山駅", lat: 35.648240, lon: 139.703500 },
+  { name: "池尻大橋駅", lat: 35.650630, lon: 139.684600 },
+]
+
 spots.each { |spot| Spot.create(spot) }
+stations.each { |station| Station.create(station) }

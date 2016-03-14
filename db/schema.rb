@@ -11,11 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314051557) do
+ActiveRecord::Schema.define(version: 20160314055114) do
 
   create_table "spots", force: :cascade do |t|
     t.string   "name"
     t.string   "address"
+    t.decimal  "lat",        precision: 9, scale: 6
+    t.decimal  "lon",        precision: 9, scale: 6
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.string   "name"
     t.decimal  "lat",        precision: 9, scale: 6
     t.decimal  "lon",        precision: 9, scale: 6
     t.datetime "created_at",                         null: false
