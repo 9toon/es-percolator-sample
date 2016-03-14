@@ -15,4 +15,9 @@ class Spot < ActiveRecord::Base
       'location' => "#{lat},#{lon}",
     }
   end
+
+  def self.create_percolators
+    Station.create_distance_percolates
+    Area.create_polygon_percolates
+  end
 end
