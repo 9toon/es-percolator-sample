@@ -1,32 +1,26 @@
 class Area < ActiveRecord::Base
-  include Concerns::Searchable
-
   serialize :coordinates
 
-  def self.create_polygon_percolates
+  def self.create_polygon_percolators
     Area.all.each do |area|
-      args = {
-        index: Spot.__elasticsearch__.index_name,
-        type: '.percolator',
-        id: "area-polygon-#{area.id}",
-        body: {
-          query: {
-            filtered: {
-              query: {
-                match_all: {}
-              },
-              filter: {
-                geo_polygon: {
-                  location: {
-                    points: area.coordinates
-                  }
+      id = "area-polygon-#{area.id}"
+      body = {
+        query: {
+          filtered: {
+            query: {
+              match_all: {}
+            },
+            filter: {
+              geo_polygon: {
+                location: {
+                  points: area.coordinates
                 }
               }
             }
           }
         }
       }
-      self.__elasticsearch__.client.index(args)
+      Spot.index_percolator(id, body)
     end
   end
 end
