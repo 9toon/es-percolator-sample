@@ -18,6 +18,21 @@ class Spot < ActiveRecord::Base
     }
   end
 
+  def percolate
+    Spot.__elasticsearch__.client.percolate(
+      index: Spot.__elasticsearch__.index_name,
+      type: Spot.__elasticsearch__.document_type,
+      body: {
+        doc: {
+          location: {
+            lat: lat,
+            lon: lon,
+          }
+        }
+      }
+    )
+  end
+
   def self.create_percolators
     Station.create_distance_percolators
     Area.create_polygon_percolators
