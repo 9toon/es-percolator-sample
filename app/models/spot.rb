@@ -10,6 +10,10 @@ class Spot < ActiveRecord::Base
     indexes :location, type: 'geo_point'
   end
 
+  def latlon
+    [lat.to_f, lon.to_f]
+  end
+
   def as_indexed_json(options = {})
     { 'id'       => id,
       'name'     => name,
